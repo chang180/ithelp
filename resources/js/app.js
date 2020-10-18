@@ -22,3 +22,6 @@ new Vue({
             },
         }),
 }).$mount(app);
+
+
+window.$ = window.jQuery = require('jquery');

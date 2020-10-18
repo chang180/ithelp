@@ -10,14 +10,19 @@ use App\Models\Article;
 class ArticlesController extends Controller
 {
 public function __construct(){
-    $this->middleware('auth')->except('index');
+    $this->middleware('auth')->except('index','show');
 }
 
     public function index()
     {
         // $articles = Article::orderBy('id','desc')->get();
-        $articles = Article::paginate(3);
+        $articles = Article::orderBy('id','desc')->paginate(5);
         return view('articles.index',['articles'=>$articles]);
+    }
+
+    public function show($id){
+        $article = Article::find($id);
+        return view('articles.show',['article'=>$article]);
     }
 
     public function create()
@@ -44,14 +49,20 @@ public function __construct(){
     }
     public function update(Request $request, $id){
         $article = auth()->user()->articles->find($id);
-
+        
         $content = $request->validate([
             'title' => 'required',
             'content' => 'required|min:10'
-        ]);
-
-        $article->update($content);
-        return redirect()->route('root')->with('notice','文章更新成功');
-
+            ]);
+            
+            $article->update($content);
+            return redirect()->route('root')->with('notice','文章更新成功');
+            
+        }
+        
+        public function destroy($id){
+            $article = auth()->user()->articles->find($id);
+            $article->delete();
+            return redirect()->route('root')->with('notice','文章已刪除！');
     }
 }
