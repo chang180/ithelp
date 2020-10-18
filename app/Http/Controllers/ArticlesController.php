@@ -16,7 +16,7 @@ public function __construct(){
     public function index()
     {
         // $articles = Article::orderBy('id','desc')->get();
-        $articles = Article::orderBy('id','desc')->paginate(5);
+        $articles = Article::with('user')->orderBy('id','desc')->paginate(5);
         return view('articles.index',['articles'=>$articles]);
     }
 
