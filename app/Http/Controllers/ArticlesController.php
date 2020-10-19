@@ -45,7 +45,7 @@ public function __construct(){
     public function edit($id){
         $article = auth()->user()->articles->find($id);
         // $article = Article::find($id);
-        return view('article.edit',['article'=>$article]);
+        return view('articles.edit',['article'=>$article]);
     }
     public function update(Request $request, $id){
         $article = auth()->user()->articles->find($id);
